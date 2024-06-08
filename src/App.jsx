@@ -3,12 +3,7 @@ import Index from "./pages/Index.jsx";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/*" element={<Index></Index>}/>
-        <Route path="/template-generator/" element={<Index />} />
-      </Routes>
-    </Router>
+   <Index></Index>
   );
 }
 
