@@ -15,6 +15,9 @@ const Index = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       setHtmlContent(e.target.result);
+      iframeRef.open();
+      iframeRef.write(e.target.result);
+      iframeRef.close();
     };
     reader.readAsText(file);
   };
@@ -73,12 +76,7 @@ const Index = () => {
   return (
     <Container centerContent maxW="container.lg" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <VStack spacing={4} width="100%">
-        <HStack spacing={4}>
-          <Input type="file" accept=".html" onChange={handleFileUpload} />
-          <iframe ref={iframeRef} style={{ width: "100%", height: "300px", border: "1px solid black" }}></iframe>
-          <IconButton aria-label="Add Section" icon={<FaEdit />} onClick={handleSectionAdd} />
-          <IconButton aria-label="Add Variable" icon={<FaSave />} onClick={handleVariableAdd} />
-        </HStack>
+        
         <Textarea value={htmlContent} onChange={(e) => setHtmlContent(e.target.value)} onMouseUp={handleTextSelect} height="300px" />
         <Box width="100%">
           <Text fontSize="xl">Sections</Text>
@@ -98,6 +96,16 @@ const Index = () => {
             </Box>
           ))}
         </Box>
+        <HStack spacing={4}>
+          <Input type="file" accept=".html" onChange={handleFileUpload} />
+          <IconButton aria-label="Add Section" icon={<FaEdit />} onClick={handleSectionAdd} />
+          <IconButton aria-label="Add Variable" icon={<FaSave />} onClick={handleVariableAdd} />
+        </HStack>
+        <iframe ref={iframeRef} 
+        style={{ width: "100%", height: "300px", border: "1px solid black" }} 
+        src="about:blank"></iframe>
+        
+      
       </VStack>
     </Container>
   );
