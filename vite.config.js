@@ -7,5 +7,5 @@ export default defineConfig({
     port: "8080",
   },
   plugins: [react()],
-  base: ""
+  base: "/template-generator/"
 });

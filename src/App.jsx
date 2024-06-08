@@ -5,7 +5,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Index />} />
+        <Route exact path="/template-generator/" element={<Index />} />
       </Routes>
     </Router>
   );
