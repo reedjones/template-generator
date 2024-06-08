@@ -15,6 +15,24 @@ const Index = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       setHtmlContent(e.target.result);
+      if (iframeRef.current) {
+         
+        // Manipulate the retrieved element's style
+        const iframe = iframeRef.current.contentWindow.document;
+        iframe.open();
+        iframe.write(e.target.result);
+        iframe.close();
+        console.log(iframe)
+        const onLoaded = () => {
+          alert('hey')
+          const iframeDocument = iframeRef.current.contentDocument;
+          addHoverScript(iframeDocument)
+        }
+        iframeRef.current.contentWindow.addEventListener('load', onLoaded)
+        
+       
+      }
+   
     };
     reader.readAsText(file);
   };
@@ -40,6 +58,7 @@ const Index = () => {
   };
 
   const addHoverScript = (iframeDoc) => {
+    
     const script = iframeDoc.createElement("script");
     script.innerHTML = `
       document.addEventListener('mouseover', function(event) {
@@ -73,12 +92,7 @@ const Index = () => {
   return (
     <Container centerContent maxW="container.lg" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <VStack spacing={4} width="100%">
-        <HStack spacing={4}>
-          <Input type="file" accept=".html" onChange={handleFileUpload} />
-          <iframe ref={iframeRef} style={{ width: "100%", height: "300px", border: "1px solid black" }}></iframe>
-          <IconButton aria-label="Add Section" icon={<FaEdit />} onClick={handleSectionAdd} />
-          <IconButton aria-label="Add Variable" icon={<FaSave />} onClick={handleVariableAdd} />
-        </HStack>
+        
         <Textarea value={htmlContent} onChange={(e) => setHtmlContent(e.target.value)} onMouseUp={handleTextSelect} height="300px" />
         <Box width="100%">
           <Text fontSize="xl">Sections</Text>
@@ -98,6 +112,15 @@ const Index = () => {
             </Box>
           ))}
         </Box>
+        <HStack spacing={4}>
+          <Input type="file" accept=".html" onChange={handleFileUpload} />
+          <IconButton aria-label="Add Section" icon={<FaEdit />} onClick={handleSectionAdd} />
+          <IconButton aria-label="Add Variable" icon={<FaSave />} onClick={handleVariableAdd} />
+          </HStack>
+          <iframe src="about:blank" 
+          ref={iframeRef} style={{ width: "100%", height: "300px", border: "1px solid black" }}></iframe>
+    
+       
       </VStack>
     </Container>
   );
